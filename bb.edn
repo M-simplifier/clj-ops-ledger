@@ -1,0 +1,7 @@
+{:tasks
+ {test {:doc "Run backend tests"
+        :task (shell "clojure -M:test")}
+  cljs-release {:doc "Build the frontend"
+                :task (shell "npx shadow-cljs release app")}
+  ci {:doc "Run the project CI gate"
+      :depends [test cljs-release]}}}
