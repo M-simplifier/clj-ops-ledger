@@ -45,15 +45,15 @@
 (rf/reg-sub :selected-status (fn [db _] (:selected-status db)))
 
 (defn visible-entries [entries status]
-  (if (= nil status)
+  (if (nil? status)
     entries
-    (filter #(= status (get % :status)) entries)))
+    (filter #(= status (:status %)) entries)))
 
 (defn status-filter []
   (let [selected @(rf/subscribe [:selected-status])
         summary @(rf/subscribe [:summary])]
     [:nav
-     [:button {:class (when (= nil selected) "active")
+     [:button {:class (when (nil? selected) "active")
                :on-click #(rf/dispatch [:select-status nil])}
       (str "All " (get summary :total 0))]
      (for [status [:triage :active :done]]
@@ -64,12 +64,12 @@
 
 (defn entry-row [entry]
   [:article
-   [:h2 (get entry :title)]
-   [:p (get entry :note)]
+   [:h2 (:title entry)]
+   [:p (:note entry)]
    [:dl
-    [:dt "Owner"] [:dd (get entry :owner)]
-    [:dt "Status"] [:dd (name (get entry :status))]
-    [:dt "Risk"] [:dd (name (get entry :risk))]]])
+    [:dt "Owner"] [:dd (:owner entry)]
+    [:dt "Status"] [:dd (name (:status entry))]
+    [:dt "Risk"] [:dd (name (:risk entry))]]])
 
 (defn app []
   (let [entries @(rf/subscribe [:entries])
@@ -81,7 +81,7 @@
      [:section
       (if (seq visible)
         (for [entry visible]
-          ^{:key (get entry :id)}
+          ^{:key (:id entry)}
           [entry-row entry])
         [:p "No entries for this filter."])]]))
 

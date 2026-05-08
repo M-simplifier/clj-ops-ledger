@@ -3,5 +3,9 @@
         :task (shell "clojure -M:test")}
   cljs-release {:doc "Build the frontend"
                 :task (shell "npx shadow-cljs release app")}
+  formsmith-check {:doc "Run Formsmith as a code-quality gate"
+                   :task (shell "clojure -M:formsmith check src test")}
+  formsmith-aggressive-preview {:doc "Preview deeper Formsmith suggestions"
+                                :task (shell "clojure -M:formsmith fix --check --aggressive src test")}
   ci {:doc "Run the project CI gate"
-      :depends [test cljs-release]}}}
+      :depends [test cljs-release formsmith-check]}}}
