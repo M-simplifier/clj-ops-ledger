@@ -42,9 +42,9 @@
 
 (defn visible-entries [status]
   (let [items @entries]
-    (if (= nil status)
+    (if (nil? status)
       items
-      (filter #(= status (get % :status)) items))))
+      (filter #(= status (:status %)) items))))
 
 (defn dashboard []
   (let [items @entries]
@@ -53,7 +53,7 @@
 
 (defn create-entry! [entry]
   (let [entry (assoc entry :id (str "ops-" (+ 100 (inc (count @entries)))))]
-    (if (not (valid-entry? entry))
+    (if-not (valid-entry? entry)
       {:error "Invalid entry"}
       (do
         (swap! entries conj entry)

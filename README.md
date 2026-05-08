@@ -20,3 +20,18 @@ Open:
 ```text
 http://localhost:8080
 ```
+
+## Formsmith Gate
+
+This repo consumes Formsmith as a released source dependency:
+
+```clojure
+{:git/tag "v0.1.0-pre.3"
+ :git/sha "9649e96a0f60c585d9f68608648f63839f5395af"}
+```
+
+The CI gate runs backend tests, a CLJS release build, and:
+
+```bash
+clojure -M:formsmith check src test
+```
